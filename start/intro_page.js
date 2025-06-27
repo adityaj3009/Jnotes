@@ -1,12 +1,6 @@
 // Firebase configuration and initialization
 const firebaseConfig = {
-  apiKey: "AIzaSyCfFYTNiilUlBKYA8egp2e3NTpW1SIW5kE",
-  authDomain: "jnotes-3009.firebaseapp.com",
-  projectId: "jnotes-3009",
-  storageBucket: "jnotes-3009.appspot.com",
-  messagingSenderId: "299051059009",
-  appId: "1:299051059009:web:efa487af7f20899cb283c0",
-  measurementId: "G-GP8QF79SYW",
+  //
 };
 
 // Initialize Firebase
