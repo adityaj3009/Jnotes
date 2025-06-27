@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | JNotes</title>
+    <link rel="icon" href="../icons/settings.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        [data-theme="dark"] {
+            --primary: #6366f1;
+            --primary-light: #312e81;
+            --text: #f3f4f6;
+            --text-light: #9ca3af;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --border: #374151;
+            --error: #f87171;
+            --success: #6ee7b7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .back-btn:hover {
+            opacity: 0.8;
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .settings-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .settings-sidebar {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .settings-sidebar h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .sidebar-menu a.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .settings-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .settings-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-preview .initials {
+            z-index: 1;
+        }
+
+        .avatar-upload-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .avatar-upload-btn:hover {
+            opacity: 0.9;
+        }
+
+        .avatar-upload input {
+            display: none;
+        }
+
+        /* Form Styles */
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .form-group input, 
+        .form-group select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group input:disabled {
+            background-color: var(--border);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Security Section */
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .security-info p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Notifications Section */
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-info {
+            flex: 1;
+        }
+
+        .notification-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-info p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Preferences Section */
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preference-item:last-child {
+            border-bottom: none;
+        }
+
+        .preference-info {
+            flex: 1;
+        }
+
+        .preference-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .preference-info p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            border: none;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--text);
+            color: var(--bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .settings-container {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../home.html" class="logo">
+                <div class="logo-icon">J</div>
+                <span>JNotes</span>
+            </a>
+            <a href="../home.html" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to app
+            </a>
+        </header>
+
+        <div class="settings-container">
+            <div class="settings-sidebar">
+                <h2>Settings</h2>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active" data-tab="profile">Profile</a></li>
+                    <li><a href="#" data-tab="account">Account</a></li>
+                    <li><a href="#" data-tab="security">Security</a></li>
+                    <li><a href="#" data-tab="notifications">Notifications</a></li>
+                    <li><a href="#" data-tab="preferences">Preferences</a></li>
+                </ul>
+            </div>
+
+            <div class="settings-content">
+                <!-- Profile Tab -->
+                <div class="tab-content active" id="profile-tab">
+                    <div class="settings-header">
+                        <h1>Profile Settings</h1>
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="avatar-upload">
+                            <div class="avatar-preview" id="avatarPreview">
+                                <div class="initials" id="avatarInitials">JD</div>
+                            </div>
+                            <button class="avatar-upload-btn" id="uploadBtn">Change Photo</button>
+                            <input type="file" id="avatarInput" accept="image/*">
+                        </div>
+
+                        <form class="profile-form" id="profileForm">
+                            <div class="form-group">
+                                <label for="nameInput">Name</label>
+                                <input type="text" id="nameInput" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="emailInput">Email</label>
+                                <input type="email" id="emailInput" disabled>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                                <button type="submit" class="btn btn-primary" id="saveBtn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Account Tab -->
+                <div class="tab-content" id="account-tab">
+                    <div class="settings-header">
+                        <h1>Account Settings</h1>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="languageSelect">Language</label>
+                        <select id="languageSelect">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timezoneSelect">Timezone</label>
+                        <select id="timezoneSelect">
+                            <option value="utc">UTC</option>
+                            <option value="est">Eastern Time (EST)</option>
+                            <option value="pst">Pacific Time (PST)</option>
+                            <option value="cet">Central European Time (CET)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelAccountBtn">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="saveAccountBtn">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Security Tab -->
+                <div class="tab-content" id="security-tab">
+                    <div class="settings-header">
+                        <h1>Security Settings</h1>
+                    </div>
+
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Change Password</h3>
+                            <p>Update your account password</p>
+                        </div>
+                        <button class="btn btn-secondary" id="changePasswordBtn">Change</button>
+                    </div>
+
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Two-Factor Authentication</h3>
+                            <p>Add an extra layer of security to your account</p>
+                        </div>
+                        <button class="btn btn-secondary" id="enable2FABtn">Enable</button>
+                    </div>
+
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Active Sessions</h3>
+                            <p>View and manage your logged-in devices</p>
+                        </div>
+                        <button class="btn btn-secondary" id="viewSessionsBtn">View</button>
+                    </div>
+                </div>
+
+                <!-- Notifications Tab -->
+                <div class="tab-content" id="notifications-tab">
+                    <div class="settings-header">
+                        <h1>Notification Settings</h1>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h3>Email Notifications</h3>
+                            <p>Receive important updates via email</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="emailNotifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h3>Push Notifications</h3>
+                            <p>Get instant alerts on your device</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="pushNotifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h3>Sound Alerts</h3>
+                            <p>Play sound for new notifications</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="soundAlerts">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Preferences Tab -->
+                <div class="tab-content" id="preferences-tab">
+                    <div class="settings-header">
+                        <h1>App Preferences</h1>
+                    </div>
+
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h3>Dark Mode</h3>
+                            <p>Toggle between light and dark theme</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h3>Auto-Save Notes</h3>
+                            <p>Automatically save notes as you type</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="autoSaveToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h3>Default Note Type</h3>
+                            <p>Choose your default note category</p>
+                        </div>
+                        <select id="defaultNoteType">
+                            <option value="grocery">Grocery List</option>
+                            <option value="meeting">Meeting Notes</option>
+                            <option value="project">Project Ideas</option>
+                            <option value="travel">Travel Plans</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="theme-switcher" id="themeSwitcher">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <script>
+        // Firebase configuration (same as in your script.js)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfFYTNiilUlBKYA8egp2e3NTpW1SIW5kE",
+            authDomain: "jnotes-3009.firebaseapp.com",
+            projectId: "jnotes-3009",
+            storageBucket: "jnotes-3009.appspot.com",
+            messagingSenderId: "299051059009",
+            appId: "1:299051059009:web:efa487af7f20899cb283c0",
+            measurementId: "G-GP8QF79SYW"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // DOM elements
+        const avatarPreview = document.getElementById('avatarPreview');
+        const avatarInitials = document.getElementById('avatarInitials');
+        const avatarInput = document.getElementById('avatarInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const nameInput = document.getElementById('nameInput');
+        const emailInput = document.getElementById('emailInput');
+        const profileForm = document.getElementById('profileForm');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        const toast = document.getElementById('toast');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        // Tab navigation
+        const tabLinks = document.querySelectorAll('.sidebar-menu a');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Current user
+        let currentUser = null;
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUser = user;
+                    loadUserProfile();
+                    applyTheme();
+                    setupEventListeners();
+                    setupTabs();
+                } else {
+                    window.location.href = '/start/intro_page.html';
+                }
+            });
+        });
+
+        // Setup tab navigation
+        function setupTabs() {
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all tabs and links
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        }
+
+        // Load user profile
+        function loadUserProfile() {
+            // Set user data
+            nameInput.value = currentUser.displayName || '';
+            emailInput.value = currentUser.email || '';
+            
+            // Set avatar
+            if (currentUser.photoURL) {
+                avatarPreview.style.backgroundImage = `url('${currentUser.photoURL}')`;
+                avatarInitials.style.display = 'none';
+            } else {
+                avatarPreview.style.backgroundImage = 'none';
+                avatarPreview.style.backgroundColor = getRandomColor();
+                avatarInitials.textContent = getInitials(currentUser.displayName || currentUser.email || 'U');
+                avatarInitials.style.display = 'flex';
+            }
+
+            // Load preferences from Firestore
+            loadPreferences();
+        }
+
+        // Load user preferences from Firestore
+        function loadPreferences() {
+            if (!currentUser) return;
+
+            db.collection('userPreferences').doc(currentUser.uid).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const prefs = doc.data();
+                        
+                        // Set dark mode toggle
+                        if (prefs.darkMode !== undefined) {
+                            isDarkMode = prefs.darkMode;
+                            darkModeToggle.checked = isDarkMode;
+                            applyTheme();
+                        }
+
+                        // Set other preferences
+                        if (prefs.language) {
+                            document.getElementById('languageSelect').value = prefs.language;
+                        }
+                        
+                        if (prefs.timezone) {
+                            document.getElementById('timezoneSelect').value = prefs.timezone;
+                        }
+                        
+                        if (prefs.notifications) {
+                            document.getElementById('emailNotifications').checked = prefs.notifications.email;
+                            document.getElementById('pushNotifications').checked = prefs.notifications.push;
+                            document.getElementById('soundAlerts').checked = prefs.notifications.sound;
+                        }
+                        
+                        if (prefs.defaultNoteType) {
+                            document.getElementById('defaultNoteType').value = prefs.defaultNoteType;
+                        }
+                        
+                        if (prefs.autoSave !== undefined) {
+                            document.getElementById('autoSaveToggle').checked = prefs.autoSave;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading preferences:', error);
+                });
+        }
+
+        // Save preferences to Firestore
+        function savePreferences() {
+            if (!currentUser) return;
+
+            const preferences = {
+                darkMode: document.getElementById('darkModeToggle').checked,
+                language: document.getElementById('languageSelect').value,
+                timezone: document.getElementById('timezoneSelect').value,
+                notifications: {
+                    email: document.getElementById('emailNotifications').checked,
+                    push: document.getElementById('pushNotifications').checked,
+                    sound: document.getElementById('soundAlerts').checked
+                },
+                defaultNoteType: document.getElementById('defaultNoteType').value,
+                autoSave: document.getElementById('autoSaveToggle').checked,
+                lastUpdated: new Date().toISOString()
+            };
+
+            db.collection('userPreferences').doc(currentUser.uid).set(preferences)
+                .then(() => {
+                    showToast('Preferences saved successfully!', 'success');
+                })
+                .catch(error => {
+                    console.error('Error saving preferences:', error);
+                    showToast('Error saving preferences', 'error');
+                });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Avatar upload
+            uploadBtn.addEventListener('click', () => avatarInput.click());
+            avatarInput.addEventListener('change', handleAvatarUpload);
+
+            // Form submission
+            profileForm.addEventListener('submit', handleFormSubmit);
+            cancelBtn.addEventListener('click', resetForm);
+
+            // Theme switcher
+            themeSwitcher.addEventListener('click', toggleTheme);
+
+            // Preferences
+            document.getElementById('saveAccountBtn').addEventListener('click', savePreferences);
+            document.getElementById('darkModeToggle').addEventListener('change', function() {
+                isDarkMode = this.checked;
+                localStorage.setItem('darkMode', isDarkMode);
+                applyTheme();
+                savePreferences();
+            });
+
+            // Security buttons
+            document.getElementById('changePasswordBtn').addEventListener('click', changePassword);
+            document.getElementById('enable2FABtn').addEventListener('click', enableTwoFactorAuth);
+            document.getElementById('viewSessionsBtn').addEventListener('click', viewActiveSessions);
+        }
+
+        // Handle avatar upload
+        function handleAvatarUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Validate image
+            if (!file.type.match('image.*')) {
+                showToast('Please select an image file', 'error');
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('Image size should be less than 2MB', 'error');
+                return;
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                avatarPreview.style.backgroundImage = `url('${event.target.result}')`;
+                avatarInitials.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const newName = nameInput.value.trim();
+            if (!newName) {
+                showToast('Please enter your name', 'error');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+
+            // Update profile
+            const promises = [];
+
+            // Update display name if changed
+            if (newName !== currentUser.displayName) {
+                promises.push(currentUser.updateProfile({
+                    displayName: newName
+                }));
+            }
+
+            // Update photo if changed
+            if (avatarInput.files[0]) {
+                const file = avatarInput.files[0];
+                const storageRef = storage.ref(`profile_pictures/${currentUser.uid}`);
+                const uploadTask = storageRef.put(file);
+
+                promises.push(
+                    new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed',
+                            null,
+                            (error) => reject(error),
+                            () => {
+                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    currentUser.updateProfile({
+                                        photoURL: downloadURL
+                                    }).then(resolve).catch(reject);
+                                });
+                            }
+                        );
+                    })
+                );
+            }
+
+            // Execute all updates
+            Promise.all(promises)
+                .then(() => {
+                    showToast('Profile updated successfully!', 'success');
+                    currentUser = auth.currentUser; // Refresh user data
+                    resetForm();
+                })
+                .catch(error => {
+                    console.error('Error updating profile:', error);
+                    showToast('Error updating profile', 'error');
+                })
+                .finally(() => {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save Changes';
+                });
+        }
+
+        // Reset form to current user data
+        function resetForm() {
+            loadUserProfile();
+            avatarInput.value = '';
+        }
+
+        // Change password function
+        function changePassword() {
+            const newPassword = prompt('Enter your new password:');
+            if (!newPassword) return;
+
+            if (newPassword.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            currentUser.updatePassword(newPassword)
+                .then(() => {
+                    showToast('Password changed successfully!', 'success');
+                })
+                .catch(error => {
+                    console.error('Error changing password:', error);
+                    showToast('Error changing password', 'error');
+                });
+        }
+
+        // Enable two-factor auth (mock implementation)
+        function enableTwoFactorAuth() {
+            showToast('Two-factor authentication is not implemented yet', 'info');
+        }
+
+        // View active sessions (mock implementation)
+        function viewActiveSessions() {
+            showToast('Active sessions feature is not implemented yet', 'info');
+        }
+
+        // Theme functions
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('darkMode', isDarkMode);
+            applyTheme();
+        }
+
+        function applyTheme() {
+            if (isDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            darkModeToggle.checked = isDarkMode;
+        }
+
+        // Helper functions
+        function getInitials(name) {
+            if (!name) return 'U';
+            return name
+                .split(' ')
+                .map(part => part[0])
+                .join('')
+                .toUpperCase();
+        }
+
+        function getRandomColor() {
+            const colors = ['#4CAF50', '#2196F3', '#9C27B0', '#FF9800', '#F44336', '#795548'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.className = 'toast';
+            
+            if (type === 'error') {
+                toast.style.backgroundColor = 'var(--error)';
+            } else if (type === 'success') {
+                toast.style.backgroundColor = 'var(--success)';
+            } else {
+                toast.style.backgroundColor = 'var(--text)';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
