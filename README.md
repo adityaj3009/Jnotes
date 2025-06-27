@@ -29,8 +29,7 @@
 ### ☁️ Google Cloud Platform (GCP)
 - **Cloud Storage Buckets** – for file uploads  
 - **Pub/Sub** – for triggering notifications on file events  
-- **Cloud Functions (optional)** – for backend logic (if implemented)  
-- **BigQuery** – to log and analyze app usage and activity  
+- **Cloud Functions** – for backend logic 
 
 ---
 
@@ -59,7 +58,6 @@ The app is hosted on **Google Cloud Platform** via Firebase Hosting, providing g
 
 - 🔎 Full-text search for notes
 - 📅 Reminders and scheduling with Calendar API
-- 🌙 Dark mode
 - 🧑‍🤝‍🧑 Real-time collaborative notes
 - 📊 Analytics dashboard (powered by BigQuery)
 
