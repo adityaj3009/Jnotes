@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jnotes - Smart Personal Notes App</title>
+    <link rel="icon" href="../icons/letter-j.png" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="intro_page.css">
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor" />
+                </svg>
+                <span class="logo-text">Jnotes</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#demo" class="nav-link">How It Works</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+            </nav>
+
+            <div class="auth-buttons" id="authContainer">
+                <a href="#" class="btn btn-outline" id="loginBtn">Log In</a>
+                <a href="#" class="btn btn-primary signup-modal-trigger" id="signupBtn">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Organize Your Thoughts, Simplify Your Life</h1>
+                <p class="hero-subtitle">Jnotes helps you capture ideas, manage tasks, and stay productive with an
+                    intuitive note-taking experience that works across all your devices.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary signup-modal-trigger">Get Started - It's Free</a>
+                    <a href="#demo" class="btn btn-outline">See How It Works</a>
+                </div>
+            </div>
+            <div class="hero-image floating">
+                <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                    alt="Jnotes App Interface">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features for Your Productivity</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Smart Organization</h3>
+                    <p class="feature-description">Categorize your notes with tags, colors, and folders. Our smart
+                        search helps you find anything instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Cross-Device Sync</h3>
+                    <p class="feature-description">Access your notes anywhere, anytime. Works seamlessly across all your
+                        devices with real-time sync.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Advanced Security</h3>
+                    <p class="feature-description">Your data is encrypted end-to-end. We never sell or share your
+                        information with third parties.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="demo-container">
+                <div class="demo-content">
+                    <h2 class="demo-title">Beautifully Simple Note-Taking</h2>
+                    <p class="demo-description">Jnotes combines powerful features with an intuitive interface. Create,
+                        organize, and share your thoughts effortlessly with our clean, distraction-free design.</p>
+                    <a href="#" class="btn btn-primary signup-modal-trigger">Try It Now</a>
+                </div>
+                <div class="demo-image floating">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                        alt="Jnotes App Demo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Trusted by Thousands of Users</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Jnotes has completely transformed how I organize my work. The ability
+                        to quickly capture ideas and find them later has made me so much more productive."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info">
+                            <h4>Sarah Miller</h4>
+                            <p>Product Manager, Google</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a writer, I've tried every note-taking app out there. Jnotes is by
+                        far the most intuitive and powerful solution I've found. It's become an essential part of my
+                        workflow."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DJ</div>
+                        <div class="author-info">
+                            <h4>David Johnson</h4>
+                            <p>Author & Journalist</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The cross-device sync is flawless. I can start a note on my phone
+                        during my commute and pick up right where I left off on my laptop at work."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ET</div>
+                        <div class="author-info">
+                            <h4>Emma Thompson</h4>
+                            <p>UX Designer, Apple</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2 class="cta-title">Ready to Boost Your Productivity?</h2>
+            <p class="cta-subtitle">Join thousands of professionals who are already using Jnotes to organize their
+                thoughts and get more done.</p>
+            <div class="cta-button">
+                <a href="#" class="btn btn-white signup-modal-trigger">Get Started for Free</a>
+                <br><br>
+                <p class="cta-footer">Created with ❤️ by Aditya Jalgaonkar</p>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="intro_page.js"></script>
+
+</body>
+
+</html>
